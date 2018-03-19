@@ -1,0 +1,21 @@
+{
+  "stylesheet":
+    {
+      "src": ["AttendanceCheck/src/scss/*/*.scss", "AttendanceCheck/src/scss/*/*/*.scss", "AttendanceCheck/src/scss/*.scss"],
+      "dest": "AttendanceCheck/static/css/",
+      "options": {
+        "dev": {
+          "outputStyle": "expanded"
+        },
+        "prod": {
+          "outputStyle": "compressed"
+        }
+      }
+    },
+  "javascript": {
+    "files": ["AttendanceCheck/src/js/*.js", "AttendanceCheck/src/js/src/*.js"],
+    "source": "AttendanceCheck/src/js/",
+    "dest": "AttendanceCheck/static/js/",
+    "title": "app.js"
+  }
+}

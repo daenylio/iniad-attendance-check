@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+        <title>Login page</title>
+        <link rel="stylesheet" href="../../static/css/app.css">
+        <link rel="stylesheet" href="../../static/fonts/fontawesome/css/fontawesome-all.css">
+    </head>
+    <body background="../../static/img/Homepage.png" alt="INIAD Background" class="index">
+        <header class="header">
+          <img src="../../static/img/INIAD.png" alt="INIAD logo">
+          <h1>Attendance</h1>
+          <p>The INIAD Attendance Management Platform</p>
+        </header>
+
+        <div class="wrapper">
+
+            <div class="scanning">
+                <h2>Quick Attendace Check</h2>
+                <p>Simply approach your IC card to the scanner, we will find
+                   your courses for you and begin taking attendance for the
+                   class you choose </p>
+                <img src="#img2" alt="wave">
+                <p>*You need your IC card registered in the database and courses
+                    added to your teacher profile.</p>
+            </div>
+
+            <div class="typing">
+                <h2>Login and Management</h2>
+                <p>Teacher and Staff access to Attendace Data</p>
+                <form class="" action="index.html" method="post">
+                    <input type="text" name="username" value="" placeholder="username">
+                    <br>
+                    <input type="text" name="password" value="" placeholder="password">
+                </form>
+
+                <p>*If you don't have account or you are experiencing technical
+                difficulties, please visit the Media Center</p>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+        $.post("/api/", { type: "login"})
+          .done(function( data ) {
+            window.location.href="/app/quick_dashboard/" + data.ic
+          });
+        </script>
+    </body>
+</html>

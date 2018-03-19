@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Begin checking</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+        <link rel="stylesheet" href="../../static/css/app.css">
+        <link rel="stylesheet" href="../../static/fonts/fontawesome/css/fontawesome-all.css">
+    </head>
+    <body>
+        <header class="header">
+          <img src="../../static/img/INIAD.png" alt="INIAD logo">
+          <h1>Attendance Check</h1>
+          <p>{{ user }}<i class="fas fa-user-circle"></i></p>
+        </header>
+
+        <div class="wrapper">
+            <h3 class="page-title">{{ course }}</h3>
+            <br />
+            <br />
+            <div class="statistic">
+                <div class="legend">
+                    <p class="legends-grid">Total: <span>{{ ontime_count }}/{{ total_student }}</span></p>
+                    <p class="legends-grid">Student ID:</p>
+                    <p class="legends-grid">Status:</p>
+                    <hr>
+                </div>
+
+                <div class="students">
+                    {% for studentstatus in studentstatus_list %}
+                        <div class="student">
+                            <p class="student-entry">{{ studentstatus.student.name }} </p>
+                            <p class="student-entry">{{ studentstatus.student.student_id }}</p>
+                            <p class="student-entry {{ studentstatus }}"><span>{{ studentstatus }}</span></p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="buttons">
+              <a href="{% url 'quick_dashboard' user.ic_card %}" class="icon-button"><span>End Session</span></a>
+              <input type="hidden" class="session" name="" value="{{ session.id }}">
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+        $.post("/api/", { type: "check", 'session': $('.session').val()})
+          .done(function( data ) {
+              window.location.reload();
+          });
+        </script>
+    </body>
+</html>

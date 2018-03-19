@@ -1,0 +1,75 @@
+body {
+  @include padding(huge, top);
+}
+
+.wrapper {
+  @include margin(huge);
+}
+
+.header {
+  background-color: #242423;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  color: white;
+  @include padding(tiny);
+  @include clearfix;
+
+  img {
+    float: left;
+  }
+  h1 {
+    margin: 0;
+    @include center();
+  }
+  p {
+    right: 0;
+    @include center(y);
+    @include text(p);
+    @include margin(tiny, right);
+
+    i {
+    }
+  }
+}
+
+.course {
+  position: relative;
+  box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.25);
+  box-sizing: border-box;
+  @include padding(tiny);
+
+  &.extended {
+    @include clearfix;
+    @include margin(space, bottom);
+
+    .buttons {
+      float: right;
+      position: absolute;
+      bottom: 30px;
+      right: 10px;
+    }
+  }
+}
+
+.statistic {
+    .legend {
+        .legends-grid {
+            display: inline-block;
+            box-sizing: border-box;
+            margin: 0;
+            @include grid(3, 1%);
+        }
+    }
+    .students .student {
+        .student-entry {
+            display: inline-block;
+            box-sizing: border-box;
+            margin: 0;
+            @include grid(3, 1%);
+        }
+    }
+}

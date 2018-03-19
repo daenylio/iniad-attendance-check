@@ -1,0 +1,234 @@
+/*
+ *  Mixin list:
+ *  * bp(xs) {...};
+ *  * margin(huge, top bottom left);
+ *  * padding(huge, top bottom left);
+ *  * text(p2);
+ *  * center; center(x);
+ *  * clearfix;
+ *  * fontawesome;
+ *  * text-bg($orange, 10px);
+ *  * grid(4, 2%);
+ *  * container(small);
+ */
+
+/*
+ *  Breakpoints generator mixin
+ *  Usage: bp($width) {@content;};
+ *  Example: bp(xs) {...};
+ *  Params: $width - corresponds to label of desired breakpoint from breakpoints var list
+ *          @content - block with code to be included in the breakpoint
+ *  Requires: $breakpoints variables
+ */
+@mixin bp($width) {
+    @if map_has_key($breakpoints1, $width) {
+        $size: map_get(map_get($breakpoints1, $width), size);
+        $type: map_get(map_get($breakpoints1, $width), dir);
+        @media only screen and (#{$type}-width: $size) {
+            @content;
+        }
+    } @else {
+        background-color: red;
+    }
+}
+/*
+ *  Margin generator mixin
+ *  Usage: margin($size, $sides);
+ *  Example: margin(huge, top bottom left);
+ *  Params: $size - corresponds to label of desired margin from margin var list
+ *          $sides - single value or list with desired sides to apply margin to
+ *  Requires: $margin and $breakpoints variables
+ */
+@mixin margin($size, $sides: null) {
+    @if map_has_key($margins, $size) {
+        $margin: map_get($margins, $size);
+        @for $z from 1 through length($margin) {
+            $marg: nth($margin, $z);
+            $dir: map_get(nth(nth($breakpoints, $z), 2), dir);
+            $size: map_get(nth(nth($breakpoints, $z), 2), size);
+            @media screen and (#{$dir}-width: $size) {
+                @if $sides == null {
+                    margin: nth($margin, $z);
+                } @else {
+                    @each $side in $sides {
+                        margin-#{$side}:nth($margin, $z);
+                    }
+                }
+            }
+        }
+    } @else {
+        background-color: red;
+    }
+}
+/*
+ *  Padding generator mixin
+ *  Used to fake margins with paddings when margin is not possible
+ *  Usage: padding($size, $sides);
+ *  Example: padding(huge, top bottom left);
+ *  Params: $size - corresponds to label of desired margin from margin var list
+ *          $sides - single value or list with desired sides to apply padding to
+ *  Requires: $margin and $breakpoints variables
+ */
+@mixin padding($size, $sides: null) {
+    @if map_has_key($margins, $size) {
+        $margin: map_get($margins, $size);
+        @for $z from 1 through length($margin) {
+            $marg: nth($margin, $z);
+            $dir: map_get(nth(nth($breakpoints, $z), 2), dir);
+            $size: map_get(nth(nth($breakpoints, $z), 2), size);
+            @media screen and (#{$dir}-width: $size) {
+                @if $sides == null {
+                    padding: nth($margin, $z);
+                } @else {
+                    @each $side in $sides {
+                        padding-#{$side}:nth($margin, $z);
+                    }
+                }
+            }
+        }
+    } @else {
+        background-color: red;
+    }
+}
+/*
+ *  Text styles mixin
+ *  Usage: text($type);
+ *  Example: text(p2);
+ *  Params: $type - corresponds to label of desired text from fonts var list
+ *  Requires: $fonts and $breakpoints variables
+ */
+@mixin text($type) {
+    @if map_has_key($fonts, $type) {
+        $text: map_get($fonts, $type);
+        $f-size: map_get($text, size);
+        $l-height: map_get($text, height);
+        $f-family: map_get($text, family);
+        $f-weight: map_get($text, weight);
+        $f-style: map_get($text, style);
+        @for $z from 1 through length($breakpoints) {
+            $break: nth($breakpoints, $z);
+            $dir: map_get(nth(nth($breakpoints,$z),2), dir);
+            $size: map_get(nth(nth($breakpoints,$z),2), size);
+            @media screen and (#{$dir}-width: $size) {
+                font-size: nth($f-size, $z);
+                line-height: nth($l-height, $z);
+            }
+        }
+        font-family: $f-family;
+        font-weight: $f-weight;
+        font-style: $f-style;
+    } @else {
+        background-color: red;
+    }
+}
+/*
+ *  Centering of element mixin
+ *  Used to center vertically/horizontally or both
+ *  Usage: center($axis);
+ *  Example: center; center(x);
+ *  Params: $axis - axis of centering, x for x-axis, y for y-axis, null for x-axis and y-axis
+ *  Requires: nothing
+ */
+@mixin center($axis: null) {
+    position: absolute;
+    @if $axis == null {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    } @elseif $axis == x {
+        left: 50%;
+        transform: translateX(-50%);
+    } @elseif $axis == y {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+/*
+ *  Clearfix mixin
+ *  Used to clearfix parent of floated elements
+ *  Usage: clearfix;
+ *  Example: clearfix;
+ *  Params: none
+ *  Requires: nothing
+ */
+@mixin clearfix {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+/*
+ *  Fontawesome icon mixin
+ *  Used to add fontawesome for icons
+ *  Usage: fontawesome;
+ *  Example: fontawesome;
+ *  Params: none
+ *  Requires: fontawesome library or font
+ */
+@mixin fontawesome {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+/*
+ *  Inline text background mixin
+ *  Used to add special padding for inline texts
+ *  Usage: text-bg($color);
+ *  Example: text-bg($orange);
+ *  Params: $color - color of background
+ *  Requires: none
+ */
+@mixin text-bg($color, $size) {
+    background-color: $color;
+    box-shadow: #{$size} 0 0 $color, -#{$size} 0 0 $color;
+}
+/*
+ *  Grid generator mixin
+ *  Usage: grid($numPerRow, $margin);
+ *  Example: grid(4, 2%);
+ *  Params: $numPerRow - number of boxes per row
+ *          $margin - margin between boxes in %
+ *  Requires: none
+ */
+@mixin grid($numPerRow, $margin) {
+    width: ((100% - (($numPerRow - 1) * $margin)) / $numPerRow);
+    &:nth-child(n) {
+        margin-bottom: $margin;
+        margin-right: $margin;
+    }
+    &:nth-child(#{$numPerRow}n) {
+        margin-right: 0;
+    }
+    &:nth-child(#{$numPerRow}n-1) {
+        margin-right: 0;
+    }
+    @if $numPerRow == 1 {
+        &:nth-child(#{$numPerRow}n) {
+            margin-bottom: $margin;
+        }
+    }
+
+}
+
+/*
+ *  Container mixin
+ *  Used to create a container with certain width based on layout
+ *  Usage: container($name);
+ *  Example: container(inner);
+ *  Params: $name - the name set in the $container variable
+ *  Requires: $container variable
+ */
+@mixin container($name) {
+    @if map_has_key($containers, $name) {
+       $size: map_get($containers, $name);
+		 max-width: $size;
+		 width: 100%;
+		 margin: 0 auto;
+    } @else {
+        background-color: red;
+    }
+}

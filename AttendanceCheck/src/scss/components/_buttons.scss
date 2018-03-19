@@ -1,0 +1,51 @@
+.button {
+  background-color: white;
+  color: black;
+  @include text(button);
+  @include padding(separate);
+  position: relative;
+  text-decoration: none;
+  box-sizing: border-box;
+  display: inline-block;
+  width: 250px;
+  height: 70px;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.4);
+  transition: 0.2s all;
+  @include margin(space, right);
+  @include margin(separate, left);
+  &:hover {
+    box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.56);
+  }
+  span {
+    @include center();
+    white-space: nowrap;
+  }
+}
+.begin-button {
+  @extend .button;
+  span {
+    left: calc(50% - 20px);
+    &:after {
+      content: "";
+      background-image: url(../img/styling/beam.svg);
+      background-size: cover;
+      display: inline-block;
+      width: 35px;
+      height: 45px;
+      position: absolute;
+      @include margin(separate, left);
+      @include center(y);
+    }
+  }
+}
+.icon-button {
+  @extend .button;
+  span {
+    i {
+      @include margin(separate, left);
+      font-size: 35px;
+      position: relative;
+      top: 4px;
+    }
+  }
+}

@@ -1,0 +1,48 @@
+.page-title {
+  @include text(h1);
+  text-align: right;
+  & + .subtitle {
+    @include text(h2);
+    text-align: right;
+  }
+}
+
+h3.page-title {
+    @include text(h3);
+    text-align: left;
+}
+
+h1 {
+  @include text(h1);
+}
+
+p {
+  @include text(regular);
+  &.filter-by {
+    text-align: right;
+    @include margin(small, top);
+    @include margin(tiny, bottom);
+  }
+}
+
+.course {
+  h3 {
+    @include text(h3);
+
+    + p {
+      @include text(p);
+    }
+  }
+  .detail {
+    @include text(label);
+
+    &.course-id {
+      @include text(span);
+    }
+  }
+}
+.statistic {
+    p {
+        @include text(span);
+    }
+}
