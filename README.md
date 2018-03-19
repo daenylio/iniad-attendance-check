@@ -1,1 +1,1 @@
-We will use the dev branch for development and when a stage of the project is complete we will merge into master
+Check attendance automatically with IC cards (PASMO, SUICA)
